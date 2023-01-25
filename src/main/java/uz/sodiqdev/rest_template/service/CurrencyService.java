@@ -1,6 +1,8 @@
 package uz.sodiqdev.rest_template.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -20,9 +22,11 @@ public class CurrencyService {
 
     @Autowired
     CurrencyRepository currencyRepository;
+
     public Currency getCurrencyByCode(String code) {
-        Optional<Currency> optionalCurrency = currencyRepository.findByCode(code);
-        return optionalCurrency.orElse(null);
+        Currency currency = currencyRepository.findByCode(code);
+
+        return currency != null ? currency : null;
 
     }
 

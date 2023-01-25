@@ -15,7 +15,6 @@ public class Currency {
 
     @Expose
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @JsonProperty("id")
     private Long id;
 
