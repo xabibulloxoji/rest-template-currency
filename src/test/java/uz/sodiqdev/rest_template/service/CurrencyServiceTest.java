@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.assertj.core.api.AssertionsForClassTypes.linesOf;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
@@ -22,16 +23,27 @@ class CurrencyServiceTest {
     CurrencyService currencyService;
 
     @Test
-    void findById(){
+    void getCurrencyByCodeTest(){
         Currency currency = currencyService.getCurrencyByCode("840");
         assertEquals("USD", currency.getCcy());
+        addCurrencyToDbTest();
     }
 
 
-    @Test
     void addCurrencyToDbTest(){
-        List<Currency> currencies = currencyService.addCurrencyToDb();
-
-        System.out.println(currencies);
+        List<Currency> all = currencyRepository.findAll();
+        assertNotNull(all);
+        int size = all.size();
+        assertEquals(75, size);
+        all.forEach(currency -> {
+            assertNotNull(currency.getCcy());
+            assertNotNull(currency.getCode());
+        });
     }
+
+
+
+
+
+
 }

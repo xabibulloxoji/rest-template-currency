@@ -24,6 +24,7 @@ public class CurrencyService {
     CurrencyRepository currencyRepository;
 
     public Currency getCurrencyByCode(String code) {
+        addCurrencyToDb();
         Currency currency = currencyRepository.findByCode(code);
 
         return currency != null ? currency : null;
@@ -49,4 +50,33 @@ public class CurrencyService {
 
         return currencies1;
     }
+
+
+    public Currency getCurrency() {
+        return new Currency();
+    }
+
+    public List<Currency> getTwoCurrency(String cur1, String cur2) {
+        String url = "https://cbu.uz/uz/arkhiv-kursov-valyut/json/";
+        ResponseEntity<Currency[]> response =
+                restTemplate.getForEntity(url, Currency[].class);
+
+        List<Currency> currencyList = new ArrayList<>();
+
+        Currency current1 = null;
+        Currency current2 = null;
+
+        Currency[] currencies = response.getBody();
+        for (Currency currency : currencies) {
+            if (currency.getCcy().equals(cur1))
+                current1 = currency;
+            if (currency.getCcy().equals(cur2))
+                current2 = currency;
+        }
+        currencyList.add(current1);
+        currencyList.add(current2);
+        return currencyList;
+    }
+
+
 }

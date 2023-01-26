@@ -3,11 +3,10 @@ package uz.sodiqdev.rest_template.entity;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.gson.annotations.Expose;
-import jakarta.annotation.Generated;
-import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @Data
 @Entity(name = "currencies")
