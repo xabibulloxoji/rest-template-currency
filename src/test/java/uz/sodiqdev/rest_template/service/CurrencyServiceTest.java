@@ -23,14 +23,14 @@ class CurrencyServiceTest {
     CurrencyService currencyService;
 
     @Test
-    void getCurrencyByCodeTest(){
+    void getCurrencyByCodeTest() {
         Currency currency = currencyService.getCurrencyByCode("840");
         assertEquals("USD", currency.getCcy());
         addCurrencyToDbTest();
     }
 
 
-    void addCurrencyToDbTest(){
+    void addCurrencyToDbTest() {
         List<Currency> all = currencyRepository.findAll();
         assertNotNull(all);
         int size = all.size();
@@ -40,8 +40,6 @@ class CurrencyServiceTest {
             assertNotNull(currency.getCode());
         });
     }
-
-
 
 
 

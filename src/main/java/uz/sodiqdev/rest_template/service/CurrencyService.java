@@ -1,27 +1,45 @@
 package uz.sodiqdev.rest_template.service;
 
+import org.apache.tomcat.util.json.JSONParser;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+import uz.sodiqdev.rest_template.ConnectionCBU;
+import uz.sodiqdev.rest_template.ConnectionDb;
 import uz.sodiqdev.rest_template.entity.Currency;
+import uz.sodiqdev.rest_template.entity.enam.Url;
 import uz.sodiqdev.rest_template.repository.CurrencyRepository;
+import uz.sodiqdev.rest_template.serviceImp.Strategy;
 
-import java.lang.reflect.Array;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
+import java.util.Scanner;
 
 @Service
 public class CurrencyService {
-
     @Autowired
     RestTemplate restTemplate;
 
     @Autowired
     CurrencyRepository currencyRepository;
+
+
+    @Autowired
+    ConnectionCBU connectionCBU;
+
+    @Autowired
+    ConnectionDb connectionDb;
+
 
     public Currency getCurrencyByCode(String code) {
         addCurrencyToDb();
@@ -52,8 +70,30 @@ public class CurrencyService {
     }
 
 
-    public Currency getCurrency() {
-        return new Currency();
+    public Currency getCurrency1(String url, String ccy) {
+        if (url != null) {
+
+            Url url1 = Url.valueOf(url);
+            String url2 = url1.getUrl();
+
+            ResponseEntity<Currency[]> response = restTemplate.getForEntity(url2,
+                    Currency[].class);
+            Currency currency;
+            Currency[] body = response.getBody();
+            for (Currency currency1 : body) {
+                if (currency1.getCcy().equals(ccy)) {
+                    currency = currency1;
+                    return currency;
+                }
+            }
+        } else {
+            Currency currency = currencyRepository.findByCcy(ccy);
+            return currency;
+        }
+
+
+        return null;
+//        return currencyRepository.findByCode("050");
     }
 
     public List<Currency> getTwoCurrency(String cur1, String cur2) {
@@ -75,7 +115,23 @@ public class CurrencyService {
         }
         currencyList.add(current1);
         currencyList.add(current2);
+        for (Currency currency : currencyList) {
+            if (currency == null) {
+                return null;
+            }
+        }
         return currencyList;
+    }
+
+
+    public String getCurrencyCode(String code) {
+        Currency currency = currencyRepository.findByCode(code);
+        return currency.getRate();
+    }
+
+
+    public String getCurrency(String code) {
+        return connectionCBU.getCurrency(code);
     }
 
 

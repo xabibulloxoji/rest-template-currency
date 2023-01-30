@@ -60,4 +60,62 @@ class CurrencyControllerTest {
                 .andDo(print())
                 .andReturn();
     }
+
+
+//    @Test
+//    void getLocalCurrency() throws Exception {
+//        mockMvc.perform(MockMvcRequestBuilders
+//                .get("/currencies/one")
+//                .contentType(MediaType.APPLICATION_JSON))
+//                .andExpect(status().isOk())
+//                .andDo(print())
+//                .andReturn();
+//    }
+//
+//    @Test
+//    void getCbuCurrency() throws Exception {
+//        mockMvc.perform(MockMvcRequestBuilders
+//                        .get("/currencies/two")
+//                        .param("ccy1", "USD")
+//                        .param("ccy2", "RUB")
+//                        .contentType(MediaType.APPLICATION_JSON))
+//                .andExpect(status().isOk())
+//                .andDo(print())
+//                .andReturn();
+//    }
+//
+//    @Test
+//    void checkLocalCurrencyNull() throws Exception {
+//        mockMvc.perform(MockMvcRequestBuilders
+//                        .get("/currencies/one")
+//                        .contentType(MediaType.APPLICATION_JSON))
+//                .andExpect(status().isNotFound())
+//                .andDo(print())
+//                .andReturn();
+//    }
+//
+//    @Test
+//    void checkCbuCurrencyNull() throws Exception {
+//        mockMvc.perform(MockMvcRequestBuilders
+//                        .get("/currencies/two")
+//                        .param("ccy1", "USD")
+//                        .param("ccy2", "RUB")
+//                        .contentType(MediaType.APPLICATION_JSON))
+//                .andExpect(status().isNotFound())
+//                .andDo(print())
+//                .andReturn();
+//    }
+//
+//
+//    @Test
+//    void getCurrencyLocalOrWeb() throws Exception {
+//        MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders
+//                        .get("currencies/one/{ccy}")
+//                        .param("url", "USD")
+//                        .contentType(MediaType.APPLICATION_JSON))
+//                .andExpect(status().isOk())
+//                .andDo(print())
+//                .andReturn();
+//        assertThat(mvcResult).isNotNull();
+//    }
 }
