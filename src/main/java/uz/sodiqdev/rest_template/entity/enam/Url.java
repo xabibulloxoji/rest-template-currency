@@ -1,19 +1,11 @@
 package uz.sodiqdev.rest_template.entity.enam;
 
+
+import org.springframework.stereotype.Component;
+
+
 public enum Url {
-    LOCAL(""),
-    CBU("https://cbu.uz/uz/arkhiv-kursov-valyut/json/"),
-    YANDEX("");
-
-    String label;
-
-    Url(String s) {
-        label = s;
-    }
-
-    public String getUrl(){
-        return label;
-    }
-
-
+    LOCAL,
+    CBU,
+    OTHER
 }

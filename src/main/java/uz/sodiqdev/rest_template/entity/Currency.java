@@ -57,6 +57,4 @@ public class Currency {
     @JsonProperty("Rate")
     private String rate;
 
-
-
 }
