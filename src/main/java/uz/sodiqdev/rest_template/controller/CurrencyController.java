@@ -47,6 +47,10 @@ public class CurrencyController {
     }
 
 
-
+    @GetMapping("/evrg/{code}")
+    public HttpEntity<?> getAllCurrencyRateEvrg(@PathVariable String code){
+        String allCurrencyAvrg = currencyService.getAllCurrencyAvrg(code);
+        return ResponseEntity.status(allCurrencyAvrg!= null? 200: 404).body(allCurrencyAvrg);
+    }
 
 }

@@ -8,6 +8,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import uz.sodiqdev.rest_template.StrategyFactory;
+import uz.sodiqdev.rest_template.component.AllCurrencyEvrg;
 import uz.sodiqdev.rest_template.component.ConnectionCBU;
 import uz.sodiqdev.rest_template.component.ConnectionDb;
 import uz.sodiqdev.rest_template.component.ConnectionOther;
@@ -28,19 +29,22 @@ public class CurrencyService {
     private final ConnectionOther connectionOther;
     private final StrategyFactory strategyFactory;
 
+    private final AllCurrencyEvrg allCurrencyEvrg;
+
     public CurrencyService(
             RestTemplate restTemplate,
             CurrencyRepository currencyRepository,
             ConnectionCBU connectionCBU,
             ConnectionDb connectionDb,
             ConnectionOther connectionOther,
-            StrategyFactory strategyFactory) {
+            StrategyFactory strategyFactory, AllCurrencyEvrg allCurrencyEvrg) {
         this.restTemplate = restTemplate;
         this.currencyRepository = currencyRepository;
         this.connectionCBU = connectionCBU;
         this.connectionDb = connectionDb;
         this.connectionOther = connectionOther;
         this.strategyFactory = strategyFactory;
+        this.allCurrencyEvrg = allCurrencyEvrg;
     }
 
 
@@ -112,6 +116,10 @@ public class CurrencyService {
         float currency1 = Float.parseFloat(currencyList.get(0).getRate());
         float currency2 = Float.parseFloat(currencyList.get(1).getRate());
         return String.valueOf(currency1 - currency2);
+    }
+
+    public String getAllCurrencyAvrg(String code){
+        return allCurrencyEvrg.getCurrency(code);
     }
 
 }
