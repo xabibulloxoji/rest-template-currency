@@ -4,14 +4,15 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+import uz.sodiqdev.rest_template.StrategyFactory;
 import uz.sodiqdev.rest_template.component.ConnectionCBU;
 import uz.sodiqdev.rest_template.component.ConnectionDb;
 import uz.sodiqdev.rest_template.component.ConnectionOther;
-import uz.sodiqdev.rest_template.StrategyFactory;
 import uz.sodiqdev.rest_template.entity.Currency;
-import uz.sodiqdev.rest_template.entity.enam.Url;
+import uz.sodiqdev.rest_template.entity.enam.PathType;
 import uz.sodiqdev.rest_template.repository.CurrencyRepository;
 import uz.sodiqdev.rest_template.service.Strategy;
 
@@ -42,13 +43,10 @@ public class CurrencyService {
         this.strategyFactory = strategyFactory;
     }
 
-    Map<Url, Strategy> strategies = new HashMap<>();
 
 
-    Set<Strategy> strategySet = new HashSet<>();
-
-
-    public List<Currency> updateDb() {
+    @Scheduled(fixedRate = 50000)
+    public boolean updateDb() {
         String url = "https://cbu.uz/uz/arkhiv-kursov-valyut/json/";
 
         ResponseEntity<Currency[]> response =
@@ -64,17 +62,15 @@ public class CurrencyService {
             currencies1.add(currency);
             currencyRepository.save(currency);
         }
-
-        return currencies1;
+        System.out.println("Successfully updated");
+        List<Currency> currencyList = currencyRepository.findAll();
+        boolean empty = currencyList.isEmpty();
+        return empty;
     }
 
     public Currency getCurrencyByCode(String code) {
         Optional<Currency> optionalCurrency = currencyRepository.findByCcy(code);
-        if (optionalCurrency.isEmpty()) {
-            Currency currency = optionalCurrency.get();
-            return currency;
-        }
-        return null;
+        return optionalCurrency.orElse(null);
     }
 
     public List<Currency> getAllCurrency(int page, int size){
@@ -84,11 +80,11 @@ public class CurrencyService {
     }
 
     public String getCurrency(String code, String type) {
-        Strategy strategy = strategyFactory.getStrategy(Url.valueOf(type));
+        Strategy strategy = strategyFactory.getStrategy(PathType.valueOf(type));
         return strategy.getCurrency(code);
     }
 
-    public String getTwoCurrencyDif(String cur1, String cur2) {
+    public String getCurrencyDif(String cur1, String cur2) {
 
         String url = "https://cbu.uz/uz/arkhiv-kursov-valyut/json/";
         ResponseEntity<Currency[]> response =

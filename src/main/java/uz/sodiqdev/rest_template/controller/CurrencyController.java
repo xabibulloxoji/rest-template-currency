@@ -17,9 +17,9 @@ public class CurrencyController {
     private CurrencyService currencyService;
 
     @GetMapping("/update")
-    public ResponseEntity<List<Currency>> updateDb(){
-        List<Currency> currencies = currencyService.updateDb();
-        return ResponseEntity.status(currencies.isEmpty()? 404: 200).body(currencies);
+    public HttpEntity<?> updateDb(){
+        boolean updateDb = currencyService.updateDb();
+        return ResponseEntity.status(updateDb? 404: 200).body("Successfully updated");
     }
 
 
@@ -40,10 +40,10 @@ public class CurrencyController {
         return currencyService.getCurrency(code, type);
     }
 
-    @GetMapping("/diff/{code1}/{code2}")
-    public HttpEntity<?> getTwoCurrencyDif(@PathVariable String code1,@PathVariable String code2){
-        currencyService.getTwoCurrencyDif(code1, code2);
-        return null;
+    @GetMapping("/dif/{code1}/{code2}")
+    public HttpEntity<?> getCurrencyDif(@PathVariable String code1,@PathVariable String code2){
+        String dif = currencyService.getCurrencyDif(code1, code2);
+        return ResponseEntity.status(dif != null? 200: 404).body(dif);
     }
 
 

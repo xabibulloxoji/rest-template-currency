@@ -3,7 +3,7 @@ package uz.sodiqdev.rest_template.component;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import uz.sodiqdev.rest_template.entity.Currency;
-import uz.sodiqdev.rest_template.entity.enam.Url;
+import uz.sodiqdev.rest_template.entity.enam.PathType;
 import uz.sodiqdev.rest_template.repository.CurrencyRepository;
 import uz.sodiqdev.rest_template.service.Strategy;
 
@@ -27,7 +27,7 @@ public class ConnectionDb implements Strategy {
     }
 
     @Override
-    public Url getStrategyName() {
-        return Url.LOCAL;
+    public PathType getStrategyName() {
+        return PathType.LOCAL;
     }
 }

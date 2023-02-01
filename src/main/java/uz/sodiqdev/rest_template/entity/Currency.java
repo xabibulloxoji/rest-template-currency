@@ -8,6 +8,12 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import lombok.Data;
 
+import java.sql.Time;
+import java.sql.Timestamp;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+
 @Data
 @Entity(name = "currencies")
 public class Currency {
@@ -56,5 +62,7 @@ public class Currency {
     @Column(name = "Rate")
     @JsonProperty("Rate")
     private String rate;
+
+
 
 }
