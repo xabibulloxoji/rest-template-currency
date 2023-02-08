@@ -24,7 +24,7 @@ class CurrencyServiceTest {
 
     @Test
     void getCurrencyByCodeTest() {
-        Currency currency = currencyService.getCurrencyByCode("840");
+        Currency currency = currencyService.getCurrencyByCode("USD");
         assertEquals("USD", currency.getCcy());
         addCurrencyToDbTest();
     }

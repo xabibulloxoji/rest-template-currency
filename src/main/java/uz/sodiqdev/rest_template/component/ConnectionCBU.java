@@ -9,6 +9,9 @@ import org.springframework.web.client.RestTemplate;
 import uz.sodiqdev.rest_template.entity.enam.PathType;
 import uz.sodiqdev.rest_template.service.Strategy;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @Component(value = "Conne")
 public class ConnectionCBU implements Strategy {
 
@@ -19,19 +22,21 @@ public class ConnectionCBU implements Strategy {
     RestTemplate restTemplate;
 
     @Override
-    public String getCurrency(String code) {
+    public Map<String, String> getCurrency(String code) {
+        Map<String, String> currencies = new HashMap<>();
         String rate = "";
         Object[] object = restTemplate.getForObject(url, Object[].class);
 
         JSONArray array = new JSONArray(object);
-        for (Object currency:array){
+        for (Object currency : array) {
             JSONObject new_obj = (JSONObject) currency;
-            if (new_obj.get("Ccy").equals(code)){
+            if (new_obj.get("Ccy").equals(code)) {
                 System.out.println(new_obj.get("Rate"));
                 rate = new_obj.get("Rate").toString();
             }
         }
-        return rate;
+        currencies.put(getStrategyName().name(), rate);
+        return currencies;
     }
 
     @Override

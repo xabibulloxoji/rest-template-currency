@@ -13,7 +13,6 @@ import java.util.Set;
 public class StrategyFactory {
     private Map<PathType, Strategy> strategies;
 
-    @Autowired
     public StrategyFactory(Set<Strategy> strategies) {
         createStrategy(strategies);
     }

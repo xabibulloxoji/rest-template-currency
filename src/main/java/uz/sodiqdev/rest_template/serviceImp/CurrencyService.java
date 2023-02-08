@@ -49,7 +49,7 @@ public class CurrencyService {
 
 
 
-    @Scheduled(fixedRate = 50000)
+    @Scheduled(fixedRate = 500000)
     public boolean updateDb() {
         String url = "https://cbu.uz/uz/arkhiv-kursov-valyut/json/";
 
@@ -74,7 +74,8 @@ public class CurrencyService {
 
     public Currency getCurrencyByCode(String code) {
         Optional<Currency> optionalCurrency = currencyRepository.findByCcy(code);
-        return optionalCurrency.orElse(null);
+        Currency currency = optionalCurrency.get();
+        return currency;
     }
 
     public List<Currency> getAllCurrency(int page, int size){
@@ -83,7 +84,7 @@ public class CurrencyService {
         return currencies.getContent();
     }
 
-    public String getCurrency(String code, String type) {
+    public Map<String, String> getCurrency(String code, String type) {
         Strategy strategy = strategyFactory.getStrategy(PathType.valueOf(type));
         return strategy.getCurrency(code);
     }
@@ -118,7 +119,7 @@ public class CurrencyService {
         return String.valueOf(currency1 - currency2);
     }
 
-    public String getAllCurrencyAvrg(String code){
+    public Map<String, String> getAllCurrencyAvrg(String code){
         return allCurrencyEvrg.getCurrency(code);
     }
 

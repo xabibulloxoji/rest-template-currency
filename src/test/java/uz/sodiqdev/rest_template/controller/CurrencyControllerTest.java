@@ -24,8 +24,10 @@ class CurrencyControllerTest {
     @Test
     void getAllCurrencyTest() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders
-                        .get("/currencies")
-                        .contentType(MediaType.APPLICATION_JSON))
+                        .get("/api/get")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .param("page", "0")
+                        .param("size", "10"))
                 .andExpect(status().isOk())
                 .andDo(print())
                 .andReturn();
@@ -44,7 +46,7 @@ class CurrencyControllerTest {
     @Test
     void getCurrencyById() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders
-                        .get("/currencies/{code}", "840")
+                        .get("/api/get/{code}", "USD")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andDo(print())

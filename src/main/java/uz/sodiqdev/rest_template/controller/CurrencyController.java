@@ -8,6 +8,7 @@ import uz.sodiqdev.rest_template.entity.Currency;
 import uz.sodiqdev.rest_template.serviceImp.CurrencyService;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api")
@@ -36,8 +37,9 @@ public class CurrencyController {
     }
 
     @GetMapping("/get/{code}/{type}")
-    public String getCurrency(@PathVariable String code, @PathVariable String type){
-        return currencyService.getCurrency(code, type);
+    public HttpEntity<?> getCurrency(@PathVariable String code, @PathVariable String type){
+        Map<String, String> currency = currencyService.getCurrency(code, type);
+        return ResponseEntity.status(currency.isEmpty()?404:200).body(currency);
     }
 
     @GetMapping("/dif/{code1}/{code2}")
@@ -49,7 +51,7 @@ public class CurrencyController {
 
     @GetMapping("/evrg/{code}")
     public HttpEntity<?> getAllCurrencyRateEvrg(@PathVariable String code){
-        String allCurrencyAvrg = currencyService.getAllCurrencyAvrg(code);
+        Map<String, String> allCurrencyAvrg = currencyService.getAllCurrencyAvrg(code);
         return ResponseEntity.status(allCurrencyAvrg!= null? 200: 404).body(allCurrencyAvrg);
     }
 

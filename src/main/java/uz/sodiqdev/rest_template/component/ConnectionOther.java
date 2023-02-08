@@ -1,6 +1,5 @@
 package uz.sodiqdev.rest_template.component;
 
-import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -8,9 +7,10 @@ import org.springframework.web.client.RestTemplate;
 import uz.sodiqdev.rest_template.entity.enam.PathType;
 import uz.sodiqdev.rest_template.service.Strategy;
 
+import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.Map;
 
-@Data
 @Component
 public class ConnectionOther implements Strategy {
 
@@ -25,7 +25,8 @@ public class ConnectionOther implements Strategy {
 
 
     @Override
-    public String getCurrency(String code) {
+    public Map<String, String> getCurrency(String code) {
+        Map<String, String> currencies = new HashMap<>();
         String rate = "";
         Object object =
                 restTemplate.getForObject(url + "?apikey=" + token + "&base_currency=" + code +
@@ -36,7 +37,8 @@ public class ConnectionOther implements Strategy {
         Object value1 = root.get("value");
         float answer = Float.parseFloat(String.valueOf(value1));
         rate = String.format("%.02f", answer);
-        return rate;
+        currencies.put(getStrategyName().name(), rate);
+        return currencies;
     }
 
     @Override

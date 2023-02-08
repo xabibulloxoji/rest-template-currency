@@ -7,6 +7,8 @@ import uz.sodiqdev.rest_template.entity.enam.PathType;
 import uz.sodiqdev.rest_template.repository.CurrencyRepository;
 import uz.sodiqdev.rest_template.service.Strategy;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 
@@ -17,11 +19,13 @@ public class ConnectionDb implements Strategy {
     CurrencyRepository currencyRepository;
 
     @Override
-    public String getCurrency(String code) {
+    public Map<String, String> getCurrency(String code){
+        Map<String, String> currencies = new HashMap<>();
         Optional<Currency> optionalCurrency = currencyRepository.findByCcy(code);
         if (optionalCurrency.isPresent()) {
             Currency currency = optionalCurrency.get();
-            return currency.getRate();
+            currencies.put(getStrategyName().name(), currency.getRate());
+            return currencies;
         }
         return null;
     }
